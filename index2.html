@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Multiple Cached SVGs</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+    <body>
+        <div class="container">
+
+            <nav>
+                <a href="index.html">Inline SVG</a> | 
+                <a href="index2.html">Cached SVG</a>
+            </nav>
+            
+            <hr />
+            <p>These SVGs are grabbed from the cache.</p>
+
+            <svg class="icon">
+                <use xlink:href="/icons/icon-wheelchair.svg#icon-wheelchair" /> 
+            </svg>
+            <svg class="icon">
+                <use xlink:href="/icons/icon-cow.svg#icon-cow" /> 
+            </svg>
+            <svg class="icon">
+                <use xlink:href="/icons/icon-alarm.svg#icon-alarm" /> 
+            </svg>
+
+            <hr />
+            References: <br />
+            <ul>
+                <li><a href="https://css-tricks.com/inline-svg-cached/">Inline SVG... Cached</a></li>
+                <li><a href="https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker">Progressive Web Apps Training</a></li>
+            </ul>
+                
+        </div>
+
+    <script>
+        
+        // Not entirely sure exactly how this code works, but when I remove it the cached images are
+        // separated on different lines with a lot of space between them.  When it's added they are displayed
+        // next to each other in-line like they are on the inline pages.
+
+        const icons = document.querySelectorAll("svg.icon");
+
+        icons.forEach(icon => {
+            const url = icon.querySelector("use").getAttribute("xlink:href"); // Might wanna look for href also
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // This is probably a bit layout-thrashy. Someone smarter than me could probably fix that up.
+
+                    // Replace the <svg><use></svg> with inline SVG
+                    const newEl = document.createElement("span");
+                    newEl.innerHTML = data;
+                    icon.parentNode.replaceChild(newEl, icon);
+
+                    // Remove the <span>s
+                    const parent = newEl.parentNode;
+                    while (newEl.firstChild) parent.insertBefore(newEl.firstChild, newEl);
+                    parent.removeChild(newEl);
+                });
+        });
+
+
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                .then(swReg => {
+                console.log('Service Worker is registered', swReg);
+                })
+                .catch(err => {
+                console.error('Service Worker Error', err);
+                });
+            });
+        }
+
+    </script>
+
+    </body>
+
+</html>

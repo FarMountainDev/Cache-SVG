@@ -1,0 +1,31 @@
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+hr {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+p {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+a {
+    color: rgb(13, 116, 235);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(13, 116, 235);
+    text-decoration: underline;
+}
+
+.container {
+    width: 600px;
+    margin: auto;
+    padding: 20px;
+    border: 2px solid black;
+}
