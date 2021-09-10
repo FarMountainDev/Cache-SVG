@@ -15,12 +15,12 @@ p {
 }
 
 a {
-    color: rgb(13, 116, 235);
+    color: rgb(0, 124, 207);
     text-decoration: none;
 }
 
 a:hover {
-    color: rgb(13, 116, 235);
+    color: rgb(0, 124, 207);
     text-decoration: underline;
 }
 
