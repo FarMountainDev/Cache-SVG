@@ -32,6 +32,7 @@
             References: <br />
             <ul>
                 <li><a href="https://css-tricks.com/inline-svg-cached/" target="_new">Inline SVG... Cached</a></li>
+                <li><a href="https://developers.google.com/web/fundamentals/primers/service-workers">Service Workers: An Introduction</a></li>
                 <li><a href="https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker" target="_new">Progressive Web Apps Training</a></li>
             </ul>
                 
@@ -39,10 +40,8 @@
 
     <script>
         
-        // Not entirely sure exactly how this code works, but when I remove it the cached images are
-        // separated on different lines with a lot of space between them.  When it's added they are displayed
-        // next to each other in-line like they are on the inline pages.
-
+        // Displays the icons inline, even though they're being grabbed from the cache
+        // From https://css-tricks.com/inline-svg-cached/
         const icons = document.querySelectorAll("svg.icon");
 
         icons.forEach(icon => {

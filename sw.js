@@ -1,5 +1,6 @@
 // https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker
 // Note: caches.match() must be called from an http or https URL scheme or it will return a TypeError
+//  Service workers only work with https
 
 const filesToCache = [
     '/',

@@ -34,6 +34,7 @@
             References: <br />
             <ul>
                 <li><a href="https://css-tricks.com/inline-svg-cached/" target="_new">Inline SVG... Cached</a></li>
+                <li><a href="https://developers.google.com/web/fundamentals/primers/service-workers">Service Workers: An Introduction</a></li>
                 <li><a href="https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker" target="_new">Progressive Web Apps Training</a></li>
             </ul>
 
@@ -42,6 +43,7 @@
     <script>
         
         // Save inline SVGs to cache
+        // From https://css-tricks.com/inline-svg-cached/
         if ("caches" in window) {
             const icon1 = document.querySelector(".icon-wheelchair").outerHTML;
             const icon2 = document.querySelector(".icon-cow").outerHTML;
