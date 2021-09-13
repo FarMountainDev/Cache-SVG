@@ -4,7 +4,8 @@ Caching SVGs with a service worker
 
 
 
-``self.addEventListener('fetch', function(event) {
+```
+self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
@@ -16,4 +17,5 @@ Caching SVGs with a service worker
       }
     )
   );
-});``
+});
+```
