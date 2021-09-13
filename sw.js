@@ -2,14 +2,16 @@
 // Note: caches.match() must be called from an http or https URL scheme or it will return a TypeError
 //  Service workers only work with https
 
+  
+const staticCacheName = 'svg-cache';
+
+// Manually choose files to be added to the cache
 const filesToCache = [
     '/',
     'index.html',
-    'index2.html'
+    'index2.html'   
   ];
-  
-const staticCacheName = 'static-svg-cache';
-  
+
 // Add files to the cache
 self.addEventListener('install', event => {
     console.log('Attempting to install service worker and cache static assets');
@@ -19,7 +21,7 @@ self.addEventListener('install', event => {
         return cache.addAll(filesToCache);
     })
     );
-});
+})
 
 // Fetch data from the cache
 self.addEventListener('fetch', event => {
@@ -48,5 +50,24 @@ self.addEventListener('fetch', event => {
             // TODO 6 - Respond with custom offline page
     
         })
+    );
+});
+
+// Deletes outdated caches
+self.addEventListener('activate', event => {
+    console.log('Activating new service worker...');
+  
+    const cacheAllowlist = [staticCacheName];
+  
+    event.waitUntil(
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            if (cacheAllowlist.indexOf(cacheName) === -1) {
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      })
     );
 });
