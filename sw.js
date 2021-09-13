@@ -2,8 +2,6 @@
 // Progressive Web Apps Training - Caching Files with Service Worker
 // https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker
 
-
-
 // Note: Service workers only work with https
 
   
@@ -63,6 +61,9 @@ self.addEventListener('fetch', event => {
 });
 
 // Deletes outdated caches
+// Note: In this demo the cache name is being set twice.  Once in "index.html" where it manually adds
+// the SVGs to the cache and again at the top of this file.  Real life applications would probably only
+// want to name the cache in one location.
 self.addEventListener('activate', event => {
     console.log('Activating new service worker...');
   
