@@ -1,15 +1,21 @@
+
+// Progressive Web Apps Training - Caching Files with Service Worker
 // https://developers.google.com/web/ilt/pwa/lab-caching-files-with-service-worker
-// Note: caches.match() must be called from an http or https URL scheme or it will return a TypeError
-//  Service workers only work with https
+
+
+
+// Note: Service workers only work with https
 
   
 const staticCacheName = 'svg-cache';
 
-// Manually choose files to be added to the cache
+// Choose files to be added to the cache
 const filesToCache = [
     '/',
     'index.html',
-    'index2.html'   
+    'index2.html',
+    'pages/404.html',
+    'pages/offline.html'
   ];
 
 // Add files to the cache
@@ -36,19 +42,22 @@ self.addEventListener('fetch', event => {
             console.log('Network request for ', event.request.url);
             return fetch(event.request)
 
-            // Save new requests to the cache
             .then(response => {
-                // TODO 5 - Respond with custom 404 page
+                // Respond with custom 404 page
+                if (response.status === 404) {
+                    return caches.match('pages/404.html');
+                }
+
+                // Save new requests to the cache
                 return caches.open(staticCacheName).then(cache => {
                 cache.put(event.request.url, response.clone());
                 return response;
                 });
             });
-    
         }).catch(error => {
-    
-            // TODO 6 - Respond with custom offline page
-    
+            // Respond with custom offline page
+            console.log('Error, ', error);
+            return caches.match('pages/offline.html');
         })
     );
 });

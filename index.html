@@ -49,7 +49,7 @@
             const icon2 = document.querySelector(".icon-cow").outerHTML;
             const icon3 = document.querySelector(".icon-alarm").outerHTML;
             
-            caches.open('static-svg-cache').then(function(cache) {
+            caches.open('svg-cache').then(function(cache) {
                 cache.put("/icons/icon-wheelchair.svg", new Response(icon1,
                     { headers: {'Content-Type': 'image/svg+xml'} }
                 ));
