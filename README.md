@@ -3,7 +3,7 @@ Caching SVGs with a service worker
 
 ***
 
-"sw.js" - Simple Version: only returns request matches from the cache
+#### "sw.js" - Simple Version: only returns request matches from the cache
 ```js
 
 self.addEventListener('fetch', function(event) {
