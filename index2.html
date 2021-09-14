@@ -42,6 +42,8 @@
         
         // Displays the icons inline, even though they're being grabbed from the cache
         // From https://css-tricks.com/inline-svg-cached/
+        // Note: This calls a second fetch request for the cached SVG image in addition to the fetch request
+        //  matching in the service worker.  Would be nice to add this to the service worker somehow
         const icons = document.querySelectorAll("svg.icon");
 
         icons.forEach(icon => {
@@ -49,8 +51,6 @@
             fetch(url)
                 .then(response => response.text())
                 .then(data => {
-                    // This is probably a bit layout-thrashy. Someone smarter than me could probably fix that up.
-
                     // Replace the <svg><use></svg> with inline SVG
                     const newEl = document.createElement("span");
                     newEl.innerHTML = data;
@@ -64,19 +64,18 @@
         });
 
 
-
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                .then(swReg => {
-                    console.log('Service Worker is registered', swReg);
-                })
-                .catch(err => {
-                    console.error('Service Worker Error', err);
-                });
-            });
-        }
+        // Register service worker (only needs to be registered once)
+        // if ('serviceWorker' in navigator) {
+        //     window.addEventListener('load', () => {
+        //         navigator.serviceWorker.register('sw.js')
+        //         .then(swReg => {
+        //             console.log('Service Worker is registered', swReg);
+        //         })
+        //         .catch(err => {
+        //             console.error('Service Worker Error', err);
+        //         });
+        //     });
+        // }
 
     </script>
 
