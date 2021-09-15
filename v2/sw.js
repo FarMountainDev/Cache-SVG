@@ -25,36 +25,37 @@ self.addEventListener('install', event => {
 })
 
 // Retrieve files from cache or fallback to network
-self.addEventListener('fetch', function(event) {
-    console.log('Fetch event for ', event.request.url);
+self.addEventListener('fetch', event => {
+    console.log("Fetch event for '" + event.request.url + "'");
     event.respondWith(
-      caches.match(event.request).then(function(response) {
+      caches.match(event.request, {ignoreVary: true}) // Without 'ignoreVary: true' this did not work when hosted
+      .then(response => {
           // return response || fetch(event.request);
           if (response) {
-              console.log("Found '" + event.request.url + " in the cache'");
+              console.log("Found '" + event.request.url + "' in the cache");
               return response;
           }
-          else {
-              console.log("Network request for '" + event.request.url + "'");
-              return fetch(event.request)
+          
+          console.log("Network request for '" + response + "' -- '" + event.request.url + "'");
+          return fetch(event.request)
 
-              .then(response => {
-                var filename = event.request.url;
-                var fileExtension = filename.substring(filename.lastIndexOf('.')+1, filename.length) || filename;
-                console.log('Requested File Extension: ' + fileExtension);
+          .then(response => {
+              // Check if the request is for an SVG
+              var fileName = event.request.url;
+              var fileExtension = fileName.substring(fileName.lastIndexOf('.')+1, fileName.length) || fileName;
+              console.log('Requested File Extension: ' + fileExtension);
 
-                if (fileExtension == "svg") {
-                  // Save new requests to the cache
-                  console.log("Adding " + event.request.url + " to the cache.");
-                  return caches.open(staticCacheName).then(cache => {
-                    cache.put(event.request.url, response.clone());
-                    return response;
-                  });
-                }
-
-                return response;
-            });
-          }
+              // Save SVG requests to the cache
+              if (fileExtension == "svg") {
+                console.log("Adding " + event.request.url + " to the cache.");
+                return caches.open(staticCacheName).then(cache => {
+                  cache.put(event.request.url, response.clone());
+                  return response;
+                });
+              }
+              
+              return response;
+          });
       })
     );
 });
