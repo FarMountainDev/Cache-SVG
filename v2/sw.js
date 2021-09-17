@@ -36,7 +36,7 @@ self.addEventListener('fetch', event => {
               return response;
           }
           
-          console.log("Network request for '" + response + "' -- '" + event.request.url + "'");
+          console.log("Network request for '" + event.request.url + "'");
           return fetch(event.request)
 
           .then(response => {
